@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "github-scraping-backend"
+version = "0.1.0"
+description = "Backend for Github Scraping Project."
+authors = ["aditya-ramesh-mysore <mysore.ad@northeastern.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+django = "^5.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
