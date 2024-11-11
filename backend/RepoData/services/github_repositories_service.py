@@ -3,9 +3,10 @@ import requests
 from ..exceptions import *
 from django.http import Http404
 from rest_framework import status
+from .github_service_interface import GitHubServiceInterface
 
 
-class GitHubApiService:
+class GithubRepositoriesService(GitHubServiceInterface):
     __BASE_GITHUB_URL = 'https://api.github.com/'
     __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
 
@@ -18,7 +19,7 @@ class GitHubApiService:
             headers['If-None-Match'] = etag
         return headers
 
-    def call_github_list_repositories_api(self, endpoint, page, etag=None):
+    def call_github_api(self, endpoint, page, etag=None):
         url = f'{self.__BASE_GITHUB_URL}/{endpoint}?page={page}&per_page=10&sort=created'
         headers = self._get_headers(etag)
         response = requests.get(url, headers=headers)

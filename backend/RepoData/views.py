@@ -6,7 +6,7 @@ from django.http import Http404
 from .serializers import RepositoryDetailSerializer
 from .services.repository_service import RepositoryService
 from .exceptions import *
-from .services.github_api_service import GitHubApiService
+from .services.github_repositories_service import GithubRepositoriesService
 
 # Create your views here.
 class RepositoryView(APIView):
@@ -32,7 +32,7 @@ class UserRepositoryView(APIView):
         if not username:
             return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        service = RepositoryService(GitHubApiService())
+        service = RepositoryService(GithubRepositoriesService())
         try:
             result = service.get_user_repositories(username, request.GET)
             serializer = RepositoryDetailSerializer(result, many=True)

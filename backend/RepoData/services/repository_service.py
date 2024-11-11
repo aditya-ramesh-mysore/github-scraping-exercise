@@ -6,6 +6,7 @@ import requests
 from dotenv import load_dotenv
 from ..serializers import RepositorySerializer
 from rest_framework import status
+from .github_service_interface import GitHubServiceInterface
 
 load_dotenv()
 
@@ -13,7 +14,7 @@ class RepositoryService:
     __BASE_GITHUB_URL = 'https://api.github.com/'
     __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
 
-    def __init__(self, github_service):
+    def __init__(self, github_service: GitHubServiceInterface):
         self.github_service = github_service
 
     def get_user_repositories(self, username, query_params):
@@ -41,7 +42,7 @@ class RepositoryService:
 
     def _fetch_repos_from_github(self, user_obj, username, page):
         etag = self._get_etag(user_obj, page)
-        response = self.github_service.call_github_list_repositories_api(f'users/{username}/repos', page, etag)
+        response = self.github_service.call_github_api(f'users/{username}/repos', page, etag)
 
         if response.status_code == status.HTTP_304_NOT_MODIFIED and user_obj:
             return Repository.objects.filter(user=user_obj, page_number=page)
