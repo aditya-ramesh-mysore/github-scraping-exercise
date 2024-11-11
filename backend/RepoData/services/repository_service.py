@@ -13,6 +13,9 @@ class RepositoryService:
     __BASE_GITHUB_URL = 'https://api.github.com/'
     __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
 
+    def __init__(self, github_service):
+        self.github_service = github_service
+
     def get_user_repositories(self, username, query_params):
         page = query_params.get('page', 1)
         fetch_from_github = self._should_fetch_from_github(query_params)
@@ -30,20 +33,6 @@ class RepositoryService:
     def _should_fetch_from_github(self, query_params):
         return query_params.get('refresh', 'false').lower() == 'true'
 
-    def _get_headers(self, etag=None):
-        headers = {
-            'Accept': 'application/vnd.github+json',
-            'Authorization': f'Bearer {self.__GITHUB_TOKEN}'
-        }
-        if etag:
-            headers['If-None-Match'] = etag
-        return headers
-
-    def _call_github_api(self, username, page, etag=None):
-        url = f'{self.__BASE_GITHUB_URL}/users/{username}/repos?page={page}&per_page=10&sort=created'
-        headers = self._get_headers(etag)
-        return requests.get(url, headers=headers)
-
     def _get_etag(self, user_obj, page):
         if not user_obj:
             return None
@@ -51,16 +40,8 @@ class RepositoryService:
         return user_repo.etag if user_repo else None
 
     def _fetch_repos_from_github(self, user_obj, username, page):
-
         etag = self._get_etag(user_obj, page)
-        response = self._call_github_api(username, page, etag)
-
-        print(response)
-        if response.status_code == status.HTTP_404_NOT_FOUND:
-            raise Http404('Not Found')
-
-        if not user_obj:
-            user_obj = User.objects.create(username=username)
+        response = self.github_service.call_github_list_repositories_api(f'users/{username}/repos', page, etag)
 
         if response.status_code == status.HTTP_304_NOT_MODIFIED and user_obj:
             return Repository.objects.filter(user=user_obj, page_number=page)
@@ -71,28 +52,27 @@ class RepositoryService:
             saved_repository_list = self._save_repositories(response.json(), user_obj, page, response.headers.get('ETag'))
             return saved_repository_list
 
+        raise Exception(f"Unexpected GitHub API response: {response.status_code} - {response.text}")
 
     def _save_repositories(self, data, user_obj, page, etag):
         if not data:
             return []
 
         Repository.objects.filter(user=user_obj, page_number=page).delete()
-        saved_repository_list = []
 
         for repo_data in data:
-            object_to_be_created = {
-                'user': user_obj.id,
+            object_data = {
                 'etag': etag,
                 'page_number': page,
-                'repository_name': repo_data['name'],
                 'description': repo_data.get('description'),
                 'stars': repo_data['stargazers_count'],
                 'forks': repo_data['forks_count'],
             }
 
-            serializer_obj = RepositorySerializer(data=object_to_be_created)
-            if serializer_obj.is_valid(raise_exception=True):
-                saved_repository_list.append(serializer_obj.save())
+            repository, created = Repository.objects.update_or_create(
+                user=user_obj,
+                repository_name=repo_data['name'],
+                defaults=object_data
+            )
 
-
-        return saved_repository_list
+        return Repository.objects.filter(user=user_obj, page_number=page)

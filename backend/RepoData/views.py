@@ -5,6 +5,8 @@ from rest_framework import status
 from django.http import Http404
 from .serializers import RepositoryDetailSerializer
 from .services.repository_service import RepositoryService
+from .exceptions import *
+from .services.github_api_service import GitHubApiService
 
 # Create your views here.
 class RepositoryView(APIView):
@@ -30,7 +32,7 @@ class UserRepositoryView(APIView):
         if not username:
             return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        service = RepositoryService()
+        service = RepositoryService(GitHubApiService())
         try:
             result = service.get_user_repositories(username, request.GET)
             serializer = RepositoryDetailSerializer(result, many=True)
@@ -38,6 +40,12 @@ class UserRepositoryView(APIView):
 
         except Http404:
             return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        except RateLimitExceeded as e:
+            return Response({'error': str(e)}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+
+        except UnauthorizedAccess as e:
+            return Response({'error': str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
