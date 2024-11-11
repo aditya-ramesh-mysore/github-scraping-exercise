@@ -9,6 +9,7 @@ from .services.github_repositories_service import GithubRepositoriesService
 from .services.user_service import UserService
 from .serializers import UserSerializer
 from django.db import DatabaseError, OperationalError
+from django.db import connection
 
 
 # Create your views here.
@@ -16,7 +17,15 @@ class RepositoryView(APIView):
 
     # repositories/
     def get(self, request, *args, **kwargs):
-        pass
+        try:
+            recent = int(request.GET.get('recent', 10))
+            service = RepositoryService()
+            most_starred_repositories = service.get_most_starred_repositories(recent)
+            serializer = RepositoryDetailSerializer(most_starred_repositories, many=True)
+            return Response(serializer.data)
+
+        except ValueError:
+            return Response({'error': 'Invalid parameters'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserView(APIView):
@@ -59,3 +68,15 @@ class UserRepositoryView(APIView):
 
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class HealthCheckView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        try:
+            connection.ensure_connection()
+            return Response(status=status.HTTP_200_OK)
+        except (OperationalError, DatabaseError) as db_error:
+            return Response(
+                {"error": "Database is currently unavailable. Please try again later."},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE
+            )

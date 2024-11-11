@@ -14,8 +14,15 @@ class RepositoryService:
     __BASE_GITHUB_URL = 'https://api.github.com/'
     __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
 
-    def __init__(self, github_service: GitHubServiceInterface):
+    def __init__(self, github_service=None):
         self.github_service = github_service
+
+    def get_most_starred_repositories(self, recent=10):
+        try:
+            most_starred_repositories = Repository.objects.all().order_by('-stars')[:recent]
+            return most_starred_repositories
+        except Exception as e:
+            raise e
 
     def get_user_repositories(self, username, query_params):
         page = query_params.get('page', 1)
