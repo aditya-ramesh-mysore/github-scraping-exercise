@@ -17,8 +17,8 @@ import StarredProjectsPage from './pages/StarredProjectsPage';
 function App() {
   return (
     <Router>
-      <NavBar />
-      <PageLayout>
+        <NavBar />
+        <PageLayout>
           <Routes>
             <Route path='/' element={<Landing />} />
             <Route path="/repositories" element={<UserRepositoriesPage />} />
