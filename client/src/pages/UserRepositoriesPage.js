@@ -4,12 +4,14 @@ import Form from "react-bootstrap/Form"
 import Button from 'react-bootstrap/Button';
 import Pagination from 'react-bootstrap/Pagination'
 import RepositoriesTable from '../components/RepositoriesTable';
+import { useAlert } from '../hooks/useAlert';
 
 export default function UserRepositoriesPage() {
 
   const [username, setUsername] = useState('');
   const [repositories, setRepositories] = useState([]);
   const [page, setPage] = useState(1);
+  const showAlert = useAlert()
 
   useEffect(() => {
     if (username) {
@@ -22,8 +24,21 @@ export default function UserRepositoriesPage() {
     try {
       const response = await axios.get(`v1/users/${username}/repositories?page=${page}${refreshParam}`);
       console.log(response.data)
+      
       setRepositories(response.data);
     } catch (error) {
+      if(error.status == 404){
+        showAlert("User not found.")
+      }
+      else if(error.status == 429){
+        showAlert('Too many requests, Please try again later.')
+      }
+      else{
+        showAlert('Some error occurred on our end. Please try again later')
+        
+      }
+      setUsername('')
+      setRepositories([])
       console.error('Error fetching repositories:', error);
     }
   };
@@ -51,7 +66,7 @@ export default function UserRepositoriesPage() {
             <p>Find public repositories by typing in a github username.</p>
             <Form.Control
               type="text"
-              placeholder="Enter GitHub username"
+              placeholder="Enter GitHub username here"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />

@@ -13,10 +13,12 @@ import NavBar from './components/NavBar';
 import UserRepositoriesPage from './pages/UserRepositoriesPage';
 import RecentUsersPage from './pages/RecentUsersPage';
 import StarredProjectsPage from './pages/StarredProjectsPage';
+import { AlertProvider } from './hooks/useAlert';
 
 function App() {
   return (
     <Router>
+      <AlertProvider>
         <NavBar />
         <PageLayout>
           <Routes>
@@ -26,6 +28,7 @@ function App() {
             <Route path="/starred-projects" element={<StarredProjectsPage />} />
           </Routes>
         </PageLayout>
+      </AlertProvider>
     </Router>
   );
 }
