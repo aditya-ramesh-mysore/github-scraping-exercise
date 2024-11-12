@@ -10,23 +10,22 @@ import Col from 'react-bootstrap/Col'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Landing from './components/Landing';
 import NavBar from './components/NavBar';
+import UserRepositoriesPage from './pages/UserRepositoriesPage';
+import RecentUsersPage from './pages/RecentUsersPage';
+import StarredProjectsPage from './pages/StarredProjectsPage';
 
 function App() {
   return (
     <Router>
       <NavBar />
-
       <PageLayout>
-        <Landing />
-      </PageLayout>
-      
-      <Container className="my-5">
-        <Routes>
-          {/* <Route path="/repositories" element={<UserRepositories />} />
-          <Route path="/recent-users" element={<RecentUsers />} />
-          <Route path="/starred-projects" element={<StarredProjects />} /> */}
-        </Routes>
-      </Container>
+          <Routes>
+            <Route path='/' element={<Landing />} />
+            <Route path="/repositories" element={<UserRepositoriesPage />} />
+            <Route path="/recent-users" element={<RecentUsersPage />} />
+            <Route path="/starred-projects" element={<StarredProjectsPage />} />
+          </Routes>
+        </PageLayout>
     </Router>
   );
 }
