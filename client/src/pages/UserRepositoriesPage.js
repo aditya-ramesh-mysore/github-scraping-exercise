@@ -3,7 +3,7 @@ import axios from "../api"
 import Form from "react-bootstrap/Form"
 import Button from 'react-bootstrap/Button';
 import Pagination from 'react-bootstrap/Pagination'
-import Table from 'react-bootstrap/Table'
+import RepositoriesTable from '../components/RepositoriesTable';
 
 export default function UserRepositoriesPage() {
 
@@ -29,8 +29,12 @@ export default function UserRepositoriesPage() {
   };
 
   const handleSearch = async () => {
-    setPage(1);
-    fetchRepositories();
+    if(page == 1){
+      fetchRepositories();
+    }
+    else{
+      setPage(1);
+    }
   };
 
   const handleRefresh = async () => {
@@ -59,34 +63,13 @@ export default function UserRepositoriesPage() {
             Refresh
           </Button>
         </Form>
-        {repositories.length > 0 && (
-          <Table striped bordered responsive className="mt-6">
-            <thead>
-              <tr>
-                <th style={{width: 200}}>Repository Name</th>
-                <th style={{width: 400}}>Description</th>
-                <th style={{width: 100}}>Stars</th>
-                <th style={{width: 100}}>Forks</th>
-              </tr>
-            </thead>
-            <tbody>
-              {repositories.map((repo) => (
-                <tr key={repo.id}>
-                  <td>{repo.repository_name}</td>
-                  <td>{repo.description || '-'}</td>
-                  <td>{repo.stars || 0}</td>
-                  <td>{repo.forks || 0}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
+        <RepositoriesTable repositories={repositories} />
       </div>
       <div className="mt-auto">
         <Pagination className="mt-4 d-flex justify-content-center">
-          <Pagination.Prev onClick={() => setPage(page - 1)} disabled={page === 1} />
+          <Pagination.Prev onClick={() => setPage(page => page - 1)} disabled={page === 1} />
           <Pagination.Item>{page}</Pagination.Item>
-          <Pagination.Next onClick={() => setPage(page + 1)} disabled={repositories.length < 10} />
+          <Pagination.Next onClick={() => setPage(page => page + 1)} disabled={repositories.length < 10} />
         </Pagination>
       </div>
     </div>

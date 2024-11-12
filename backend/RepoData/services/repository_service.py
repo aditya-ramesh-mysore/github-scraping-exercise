@@ -55,8 +55,7 @@ class RepositoryService:
             return Repository.objects.filter(user=user_obj, page_number=page)
 
         if response.status_code == status.HTTP_200_OK:
-            if not user_obj:
-                user_obj = User.objects.create(username=username)
+            user_obj, created = User.objects.get_or_create(username=username)
             saved_repository_list = self._save_repositories(response.json(), user_obj, page, response.headers.get('ETag'))
             return saved_repository_list
 
@@ -65,22 +64,26 @@ class RepositoryService:
     def _save_repositories(self, data, user_obj, page, etag):
         if not data:
             return []
+        try:
+            Repository.objects.filter(user=user_obj, page_number=page).delete()
+            print("Deleted Repositories object")
 
-        Repository.objects.filter(user=user_obj, page_number=page).delete()
+            for repo_data in data:
+                object_data = {
+                    'etag': etag,
+                    'page_number': page,
+                    'description': repo_data.get('description'),
+                    'stars': repo_data['stargazers_count'],
+                    'forks': repo_data['forks_count'],
+                }
 
-        for repo_data in data:
-            object_data = {
-                'etag': etag,
-                'page_number': page,
-                'description': repo_data.get('description'),
-                'stars': repo_data['stargazers_count'],
-                'forks': repo_data['forks_count'],
-            }
+                repository, created = Repository.objects.update_or_create(
+                    user=user_obj,
+                    repository_name=repo_data['name'],
+                    defaults=object_data
+                )
 
-            repository, created = Repository.objects.update_or_create(
-                user=user_obj,
-                repository_name=repo_data['name'],
-                defaults=object_data
-            )
+        except Exception as e:
+            print(e)
 
         return Repository.objects.filter(user=user_obj, page_number=page)
