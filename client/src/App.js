@@ -7,38 +7,19 @@ import React from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Landing from './components/Landing';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
     <Router>
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Container>
-          <Navbar.Brand as={Link} to="/">
-            GitHub Scraper UI
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link as={Link} to="/repositories">
-                User Repositories
-              </Nav.Link>
-              <Nav.Link as={Link} to="/recent-users">
-                Recent Users
-              </Nav.Link>
-              <Nav.Link as={Link} to="/starred-projects">
-                Starred Projects
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <NavBar />
+
       <PageLayout>
         <Landing />
       </PageLayout>
+      
       <Container className="my-5">
         <Routes>
           {/* <Route path="/repositories" element={<UserRepositories />} />

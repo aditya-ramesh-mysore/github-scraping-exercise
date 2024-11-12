@@ -13,7 +13,11 @@ export default function PageLayout({children}) {
           backgroundImage: `url('/Background.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           height: '100vh',
+          width: '100vw',
+          margin: 0,
+          padding: 0,
           color: '#fff',
         }}
       >

@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+p {
+  color: black !important;
+}
+
+h1 {
+  color: black !important;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
