@@ -28,6 +28,10 @@ class RepositoryView(APIView):
         except ValueError:
             return Response({'error': 'Invalid parameters'}, status=status.HTTP_400_BAD_REQUEST)
 
+        except Exception as e:
+            print(e)
+            return Response({'error': "An unexpected error occurred."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class UserView(APIView):
 
@@ -43,6 +47,10 @@ class UserView(APIView):
 
         except ValueError:
             return Response({'error': 'Invalid parameters'}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            print(e)
+            return Response({'error': "An unexpected error occurred."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class UserRepositoryView(APIView):

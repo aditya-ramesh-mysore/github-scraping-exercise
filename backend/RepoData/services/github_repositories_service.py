@@ -19,8 +19,11 @@ class GithubRepositoriesService(AbstractGithubService):
             headers['If-None-Match'] = etag
         return headers
 
+    def _build_url(self, endpoint, page):
+        return f"{self.__BASE_GITHUB_URL}/{endpoint}?page={page}&per_page=10&sort=created"
+
     def call_github_api(self, endpoint, page, etag=None):
-        url = f'{self.__BASE_GITHUB_URL}/{endpoint}?page={page}&per_page=10&sort=created'
+        url = self._build_url(endpoint, page)
         headers = self._get_headers(etag)
         response = requests.get(url, headers=headers)
         self._handle_github_response_errors(response)
