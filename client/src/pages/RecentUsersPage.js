@@ -8,13 +8,15 @@ import PaginationComponent from '../components/PaginationComponent';
 import SearchForm from '../components/SearchForm';
 
 export default function RecentUsersPage() {
-  const [n, setN] = useState(1);
+  const [n, setN] = useState('');
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const showAlert = useAlert();
 
   useEffect(() => {
-    handleFetch();
+    if(n){
+      handleFetch();
+    }
   }, [page]);
 
   const handleFetch = async () => {
@@ -42,7 +44,7 @@ export default function RecentUsersPage() {
       <div>
       <h2 style={{ color: '#218838' }} className="display-6">Recent Users</h2>
       <SearchForm 
-        title={"Enter N to get most recent users"}
+        title={"Enter a number to get N most recent users"}
         searchField={n}
         setSearchField={setN}
         onSearch={handleSearch}
