@@ -8,20 +8,20 @@ import useApi from '../hooks/useApi';
 import Col from 'react-bootstrap/esm/Col';
 
 export default function RecentUsersPage() {
-  const [n, setN] = useState('');
+  const [input, setInput] = useState('');
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const callApi = useApi();
 
   useEffect(() => {
-    if(n){
+    if(input){
       handleFetch();
     }
   }, [page]);
 
   const handleFetch = async () => {
     try {
-      const data = await callApi(`/v1/users?recent=${n}&page=${page}`);
+      const data = await callApi(`/v1/users?recent=${input}&page=${page}`);
       setUsers(data);
     } catch (error) {
       setUsers([])
@@ -45,8 +45,8 @@ export default function RecentUsersPage() {
       <Col lg={{ span: 6, offset: 3 }}>
         <SearchForm 
           title={"Enter a number to get N most recent users"}
-          searchField={n}
-          setSearchField={setN}
+          searchField={input}
+          setSearchField={setInput}
           onSearch={handleSearch}
           onRefresh={null}
           placeholder={"Enter a number N"}

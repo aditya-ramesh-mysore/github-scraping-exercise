@@ -9,20 +9,20 @@ import Col from 'react-bootstrap/esm/Col';
 
 
 export default function StarredProjectsPage() {
-  const [n, setN] = useState(null);
+  const [input, setInput] = useState(null);
   const [repositories, setRepositories] = useState([]);
   const [page, setPage] = useState(1);
   const callApi = useApi()
 
   useEffect(() => {
-    if(n){
+    if(input){
       handleFetch();
     }
   }, [page]);
 
   const handleFetch = async () => {
     try {
-      const data = await callApi(`/v1/repositories?recent=${n}&page=${page}`);
+      const data = await callApi(`/v1/repositories?recent=${input}&page=${page}`);
       setRepositories(data);
     } catch (error) {
       setRepositories([])
@@ -45,8 +45,8 @@ export default function StarredProjectsPage() {
       <Col lg={{ span: 6, offset: 3 }}>
         <SearchForm 
           title={"Enter a number to get N most starred repositories"}
-          searchField={n}
-          setSearchField={setN}
+          searchField={input}
+          setSearchField={setInput}
           onSearch={handleSearch}
           onRefresh={null}
           placeholder={"Enter a number N"}
