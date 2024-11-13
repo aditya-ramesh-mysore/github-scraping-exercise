@@ -34,8 +34,9 @@ class UserView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             recent = int(request.GET.get('recent', 10))
+            page = int(request.GET.get('page', 1))
             service = UserService()
-            most_recent_users = service.get_recent_users(recent)
+            most_recent_users = service.get_recent_users(recent, page)
             serializer = UserSerializer(most_recent_users, many=True)
             return Response(serializer.data)
 
