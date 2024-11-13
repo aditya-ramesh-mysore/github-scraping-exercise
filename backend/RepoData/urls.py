@@ -1,6 +1,5 @@
-from django.contrib import admin
 from django.urls import path
-from .views import UserView, UserRepositoryView, RepositoryView, HealthCheckView
+from .views import RepositoryView, UserView, UserRepositoryView, HealthCheckView
 
 urlpatterns = [
     path('users/<slug:username>/repositories', UserRepositoryView.as_view(), name='user_repositories'),
