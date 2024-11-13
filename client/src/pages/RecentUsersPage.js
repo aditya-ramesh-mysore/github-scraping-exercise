@@ -14,10 +14,10 @@ export default function RecentUsersPage() {
   const showAlert = useAlert();
 
   useEffect(() => {
-    handleSearch();
+    handleFetch();
   }, [page]);
 
-  const handleSearch = async () => {
+  const handleFetch = async () => {
     try {
       const response = await axios.get(`/v1/users?recent=${n}&page=${page}`);
       setUsers(response.data);
@@ -26,6 +26,15 @@ export default function RecentUsersPage() {
       console.error('Error fetching users:', error);
     }
   };
+
+  const handleSearch = async () => {
+    if(page == 1){
+      handleFetch()
+    }
+    else{
+      setPage(1)
+    }
+  }
 
   return (
     <div className="d-flex flex-column justify-content-between" style={{ height: 'calc(100vh - 30px)' }}>
