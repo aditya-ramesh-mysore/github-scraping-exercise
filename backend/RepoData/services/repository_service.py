@@ -1,12 +1,7 @@
 import os
-from django.utils import timezone
-from django.http import Http404
 from ..models import Repository, User
-import requests
 from dotenv import load_dotenv
-from ..serializers import RepositorySerializer
 from rest_framework import status
-from .github_service_interface import GitHubServiceInterface
 
 load_dotenv()
 
