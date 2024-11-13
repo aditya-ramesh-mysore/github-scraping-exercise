@@ -18,7 +18,7 @@ export default function NavBar() {
                     width="30"
                     height="30"
                     className="d-inline-block align-top me-2"/>
-                GitHub Scraper UI
+                GitHub Scraper
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
@@ -29,7 +29,7 @@ export default function NavBar() {
                     <Nav.Link as={Link} to="/recent-users">
                         Recent Users
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/starred-projects">
+                    <Nav.Link as={Link} to="/projects">
                         Starred Projects
                     </Nav.Link>
                 </Nav>

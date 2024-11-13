@@ -1,9 +1,12 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/esm/Col';
+import { useNavigate } from 'react-router-dom';
 import {ReactTyped} from 'react-typed'
 
 export default function Landing() {
+  const navigate = useNavigate();
+
   return (
     <React.Fragment>
       <Col lg={{ span: 8, offset: 2 }}>
@@ -17,10 +20,10 @@ export default function Landing() {
 
       </Col>
       <p className="lead">
-      Easily explore user repositories, discover recent contributors, and find the most popular projects.
+      Easily explore user repositories, discover recent users, and find the most popular projects.
       </p>
-      <Button variant="success" size="lg" className="me-3">Get Started</Button>
-      <Button variant="outline-dark" size="lg">Learn More</Button>
+      <Button onClick={() => navigate("/repositories")} variant="success" size="lg" className="me-3">Get Started</Button>
+      <Button onClick={() => navigate("/projects")} variant="outline-dark" size="lg">Projects</Button>
     </React.Fragment>
   );
 }

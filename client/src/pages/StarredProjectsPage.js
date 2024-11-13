@@ -40,7 +40,6 @@ export default function StarredProjectsPage() {
 
   return (
     <div className="d-flex flex-column justify-content-between" style={{ height: 'calc(100vh - 30px)' }}>
-      
       <div>
       <h2 style={{ color: '#218838' }} className="display-6">Most starred repositories.</h2>
       <Col lg={{ span: 6, offset: 3 }}>

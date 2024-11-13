@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Landing from './components/Landing';
+import LandingPage from './pages/LandingPage';
 import NavBar from './components/NavBar';
 import UserRepositoriesPage from './pages/UserRepositoriesPage';
 import RecentUsersPage from './pages/RecentUsersPage';
@@ -22,10 +22,10 @@ function App() {
         <NavBar />
         <PageLayout>
           <Routes>
-            <Route path='/' element={<Landing />} />
+            <Route path='/' element={<LandingPage />} />
             <Route path="/repositories" element={<UserRepositoriesPage />} />
             <Route path="/recent-users" element={<RecentUsersPage />} />
-            <Route path="/starred-projects" element={<StarredProjectsPage />} />
+            <Route path="/projects" element={<StarredProjectsPage />} />
           </Routes>
         </PageLayout>
       </AlertProvider>
