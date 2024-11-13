@@ -3,10 +3,10 @@ import requests
 from ..exceptions import *
 from django.http import Http404
 from rest_framework import status
-from .github_service_interface import GitHubServiceInterface
+from .abstract_github_service import AbstractGithubService
 
 
-class GithubRepositoriesService(GitHubServiceInterface):
+class GithubRepositoriesService(AbstractGithubService):
     __BASE_GITHUB_URL = 'https://api.github.com/'
     __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
 

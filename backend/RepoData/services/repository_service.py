@@ -1,25 +1,27 @@
 import os
-from django.utils import timezone
-from django.http import Http404
 from ..models import Repository, User
-import requests
 from dotenv import load_dotenv
-from ..serializers import RepositorySerializer
 from rest_framework import status
-from .github_service_interface import GitHubServiceInterface
 
 load_dotenv()
 
 class RepositoryService:
     __BASE_GITHUB_URL = 'https://api.github.com/'
     __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
+    __REPOSITORIES_PER_PAGE = 10
 
     def __init__(self, github_service=None):
         self.github_service = github_service
 
-    def get_most_starred_repositories(self, recent=10):
+    def get_most_starred_repositories(self, recent=10, page=1):
         try:
             most_starred_repositories = Repository.objects.all().order_by('-stars')[:recent]
+            if page > 1:
+                lower_limit = (page - 1) * self.__REPOSITORIES_PER_PAGE
+                upper_limit = lower_limit + self.__REPOSITORIES_PER_PAGE
+                most_starred_repositories = most_starred_repositories[lower_limit:upper_limit]
+            else:
+                most_starred_repositories = most_starred_repositories[:self.__REPOSITORIES_PER_PAGE]
             return most_starred_repositories
         except Exception as e:
             raise e
@@ -55,8 +57,7 @@ class RepositoryService:
             return Repository.objects.filter(user=user_obj, page_number=page)
 
         if response.status_code == status.HTTP_200_OK:
-            if not user_obj:
-                user_obj = User.objects.create(username=username)
+            user_obj, created = User.objects.get_or_create(username=username)
             saved_repository_list = self._save_repositories(response.json(), user_obj, page, response.headers.get('ETag'))
             return saved_repository_list
 
@@ -65,7 +66,6 @@ class RepositoryService:
     def _save_repositories(self, data, user_obj, page, etag):
         if not data:
             return []
-
         Repository.objects.filter(user=user_obj, page_number=page).delete()
 
         for repo_data in data:
