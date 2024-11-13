@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Pagination from 'react-bootstrap/Pagination'
 import RepositoriesTable from '../components/RepositoriesTable';
 import { useAlert } from '../hooks/useAlert';
+import UserRepositoriesSearchForm from '../components/UserRepositoriesSearchForm';
+import PaginationComponent from '../components/PaginationComponent';
 
 export default function UserRepositoriesPage() {
 
@@ -61,31 +63,20 @@ export default function UserRepositoriesPage() {
     <div className="d-flex flex-column justify-content-between" style={{ height: 'calc(100vh - 30px)' }}>
       <div>
         <h2 style={{ color: '#218838' }} className="display-6">User Repositories</h2>
-        <Form className="mb-4">
-          <Form.Group controlId="formUsername">
-            <p>Find public repositories by typing in a github username.</p>
-            <Form.Control
-              type="text"
-              placeholder="Enter GitHub username here"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </Form.Group>
-          <Button variant="success" onClick={handleSearch} className="mt-2">
-            Search
-          </Button>
-          <Button variant="secondary" onClick={handleRefresh} className="mt-2 ms-2">
-            Refresh
-          </Button>
-        </Form>
+        <UserRepositoriesSearchForm 
+          username={username}
+          setUsername={setUsername}
+          onSearch={handleSearch}
+          onRefresh={handleRefresh}
+        />
         <RepositoriesTable repositories={repositories} />
       </div>
       <div className="mt-auto">
-        <Pagination className="mt-4 d-flex justify-content-center">
-          <Pagination.Prev onClick={() => setPage(page => page - 1)} disabled={page === 1} />
-          <Pagination.Item>{page}</Pagination.Item>
-          <Pagination.Next onClick={() => setPage(page => page + 1)} disabled={repositories.length < 10} />
-        </Pagination>
+        <PaginationComponent 
+          page={page}
+          setPage={setPage}
+          hasMore={repositories.length === 10}
+        />
       </div>
     </div>
   );
