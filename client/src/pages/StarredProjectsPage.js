@@ -5,6 +5,7 @@ import SearchForm from '../components/SearchForm';
 import PaginationComponent from '../components/PaginationComponent';
 import { useAlert } from '../hooks/useAlert';
 import useApi from '../hooks/useApi';
+import Col from 'react-bootstrap/esm/Col';
 
 
 export default function StarredProjectsPage() {
@@ -42,17 +43,20 @@ export default function StarredProjectsPage() {
       
       <div>
       <h2 style={{ color: '#218838' }} className="display-6">Most starred repositories.</h2>
-      <SearchForm 
-        title={"Enter a number to get N most starred repositories"}
-        searchField={n}
-        setSearchField={setN}
-        onSearch={handleSearch}
-        onRefresh={null}
-        placeholder={"Enter a number N"}
-      />
+      <Col lg={{ span: 6, offset: 3 }}>
+        <SearchForm 
+          title={"Enter a number to get N most starred repositories"}
+          searchField={n}
+          setSearchField={setN}
+          onSearch={handleSearch}
+          onRefresh={null}
+          placeholder={"Enter a number N"}
+        />
+      </Col>
       </div>
-    
-      <RepositoriesTable repositories={repositories} />
+      <Col lg={{ span: 8, offset: 2 }}>
+        <RepositoriesTable repositories={repositories} />
+      </Col>
       <div className="mt-auto">
         <PaginationComponent 
           page={page}

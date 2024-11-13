@@ -22,7 +22,7 @@ export default function PageLayout({children}) {
   
   if(location.pathname != "/"){
     style = {
-      backgroundColor: 'rgb(210, 218, 210)',
+      backgroundImage: `url('/Background2.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
@@ -42,7 +42,7 @@ export default function PageLayout({children}) {
       >
         <Container>
           <Row>
-            <Col lg={{ span: 8, offset: 2 }}>
+            <Col>
               {children}
             </Col>
           </Row>

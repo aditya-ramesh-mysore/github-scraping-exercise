@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import PaginationComponent from '../components/PaginationComponent';
 import SearchForm from '../components/SearchForm';
 import useApi from '../hooks/useApi';
+import Col from 'react-bootstrap/esm/Col';
 
 export default function RecentUsersPage() {
   const [n, setN] = useState('');
@@ -41,17 +42,20 @@ export default function RecentUsersPage() {
       
       <div>
       <h2 style={{ color: '#218838' }} className="display-6">Recent Users</h2>
-      <SearchForm 
-        title={"Enter a number to get N most recent users"}
-        searchField={n}
-        setSearchField={setN}
-        onSearch={handleSearch}
-        onRefresh={null}
-        placeholder={"Enter a number N"}
-      />
+      <Col lg={{ span: 6, offset: 3 }}>
+        <SearchForm 
+          title={"Enter a number to get N most recent users"}
+          searchField={n}
+          setSearchField={setN}
+          onSearch={handleSearch}
+          onRefresh={null}
+          placeholder={"Enter a number N"}
+        />
+      </Col>
       </div>
-    
-      <UsersTable users={users} />
+      <Col lg={{ span: 8, offset: 2 }}>
+        <UsersTable users={users} />
+      </Col>
       <div className="mt-auto">
         <PaginationComponent 
           page={page}

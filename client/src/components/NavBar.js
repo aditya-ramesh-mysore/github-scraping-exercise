@@ -13,7 +13,7 @@ export default function NavBar() {
         <Container fluid>
             <Navbar.Brand as={Link} to="/">
                 <img
-                    src="/favicon.ico"
+                    src="/logo.svg"
                     alt="Logo"
                     width="30"
                     height="30"

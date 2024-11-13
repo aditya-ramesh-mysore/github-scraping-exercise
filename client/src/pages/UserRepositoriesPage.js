@@ -8,6 +8,7 @@ import { useAlert } from '../hooks/useAlert';
 import SearchForm from '../components/SearchForm';
 import PaginationComponent from '../components/PaginationComponent';
 import useApi from '../hooks/useApi';
+import Col from 'react-bootstrap/esm/Col';
 
 export default function UserRepositoriesPage() {
 
@@ -51,15 +52,19 @@ export default function UserRepositoriesPage() {
     <div className="d-flex flex-column justify-content-between" style={{ height: 'calc(100vh - 30px)' }}>
       <div>
         <h2 style={{ color: '#218838' }} className="display-6">User Repositories</h2>
-        <SearchForm 
-          title={"Find github repositories by searching for their usernames."}
-          searchField={username}
-          setSearchField={setUsername}
-          onSearch={handleSearch}
-          onRefresh={handleRefresh}
-          placeholder={"Enter a Github username here."}
-        />
-        <RepositoriesTable repositories={repositories} />
+        <Col lg={{ span: 6, offset: 3 }}>
+          <SearchForm 
+            title={"Find github repositories by searching for their usernames."}
+            searchField={username}
+            setSearchField={setUsername}
+            onSearch={handleSearch}
+            onRefresh={handleRefresh}
+            placeholder={"Enter a Github username here."}
+          />
+        </Col>
+        <Col lg={{ span: 8, offset: 2 }}>
+          <RepositoriesTable repositories={repositories} />
+        </Col>
       </div>
       <div className="mt-auto">
         <PaginationComponent 

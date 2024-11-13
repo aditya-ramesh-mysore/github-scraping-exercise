@@ -12,13 +12,14 @@ export default function SearchForm({
 }) {
     return (
         <Form className="mb-4">
-            <Form.Group controlId="formUsername">
-                <p>{title}</p>
+            <p>{title}</p>
+            <Form.Group controlId="formUsername" className='d-flex justify-content-center'>
                 <Form.Control
                     type="text"
                     placeholder={placeholder}
                     value={searchField}
                     required
+                    
                     onChange={(e) => setSearchField(e.target.value)}/>
             </Form.Group>
             <Button variant="success" onClick={onSearch} className="mt-2">
