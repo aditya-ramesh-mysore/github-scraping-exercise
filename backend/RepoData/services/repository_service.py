@@ -8,13 +8,20 @@ load_dotenv()
 class RepositoryService:
     __BASE_GITHUB_URL = 'https://api.github.com/'
     __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
+    __REPOSITORIES_PER_PAGE = 10
 
     def __init__(self, github_service=None):
         self.github_service = github_service
 
-    def get_most_starred_repositories(self, recent=10):
+    def get_most_starred_repositories(self, recent=10, page=1):
         try:
             most_starred_repositories = Repository.objects.all().order_by('-stars')[:recent]
+            if page > 1:
+                lower_limit = (page - 1) * self.__REPOSITORIES_PER_PAGE
+                upper_limit = lower_limit + self.__REPOSITORIES_PER_PAGE
+                most_starred_repositories = most_starred_repositories[lower_limit:upper_limit]
+            else:
+                most_starred_repositories = most_starred_repositories[:self.__REPOSITORIES_PER_PAGE]
             return most_starred_repositories
         except Exception as e:
             raise e
@@ -59,26 +66,21 @@ class RepositoryService:
     def _save_repositories(self, data, user_obj, page, etag):
         if not data:
             return []
-        try:
-            Repository.objects.filter(user=user_obj, page_number=page).delete()
-            print("Deleted Repositories object")
+        Repository.objects.filter(user=user_obj, page_number=page).delete()
 
-            for repo_data in data:
-                object_data = {
-                    'etag': etag,
-                    'page_number': page,
-                    'description': repo_data.get('description'),
-                    'stars': repo_data['stargazers_count'],
-                    'forks': repo_data['forks_count'],
-                }
+        for repo_data in data:
+            object_data = {
+                'etag': etag,
+                'page_number': page,
+                'description': repo_data.get('description'),
+                'stars': repo_data['stargazers_count'],
+                'forks': repo_data['forks_count'],
+            }
 
-                repository, created = Repository.objects.update_or_create(
-                    user=user_obj,
-                    repository_name=repo_data['name'],
-                    defaults=object_data
-                )
-
-        except Exception as e:
-            print(e)
+            repository, created = Repository.objects.update_or_create(
+                user=user_obj,
+                repository_name=repo_data['name'],
+                defaults=object_data
+            )
 
         return Repository.objects.filter(user=user_obj, page_number=page)

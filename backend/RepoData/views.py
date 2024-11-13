@@ -19,8 +19,9 @@ class RepositoryView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             recent = int(request.GET.get('recent', 10))
+            page = int(request.GET.get('page', 1))
             service = RepositoryService()
-            most_starred_repositories = service.get_most_starred_repositories(recent)
+            most_starred_repositories = service.get_most_starred_repositories(recent, page)
             serializer = RepositoryDetailSerializer(most_starred_repositories, many=True)
             return Response(serializer.data)
 
@@ -69,7 +70,7 @@ class UserRepositoryView(APIView):
 
         except Exception as e:
             print(e)
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': "An unexpected error occurred."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class HealthCheckView(APIView):
 
