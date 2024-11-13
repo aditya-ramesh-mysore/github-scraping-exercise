@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Pagination from 'react-bootstrap/Pagination'
 import RepositoriesTable from '../components/RepositoriesTable';
 import { useAlert } from '../hooks/useAlert';
-import UserRepositoriesSearchForm from '../components/UserRepositoriesSearchForm';
+import SearchForm from '../components/SearchForm';
 import PaginationComponent from '../components/PaginationComponent';
 
 export default function UserRepositoriesPage() {
@@ -63,11 +63,13 @@ export default function UserRepositoriesPage() {
     <div className="d-flex flex-column justify-content-between" style={{ height: 'calc(100vh - 30px)' }}>
       <div>
         <h2 style={{ color: '#218838' }} className="display-6">User Repositories</h2>
-        <UserRepositoriesSearchForm 
-          username={username}
-          setUsername={setUsername}
+        <SearchForm 
+          title={"Find github repositories by searching for their usernames."}
+          searchField={username}
+          setSearchField={setUsername}
           onSearch={handleSearch}
           onRefresh={handleRefresh}
+          placeholder={"Enter a Github username here."}
         />
         <RepositoriesTable repositories={repositories} />
       </div>
