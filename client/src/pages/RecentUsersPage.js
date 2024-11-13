@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import UsersTable from '../components/UsersTable';
-import axios from '../api'
-import Form from 'react-bootstrap/Form'
 import { useAlert } from '../hooks/useAlert';
 import Button from 'react-bootstrap/Button';
 import PaginationComponent from '../components/PaginationComponent';
 import SearchForm from '../components/SearchForm';
+import useApi from '../hooks/useApi';
 
 export default function RecentUsersPage() {
   const [n, setN] = useState('');
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
-  const showAlert = useAlert();
+  const callApi = useApi();
 
   useEffect(() => {
     if(n){
@@ -21,20 +20,19 @@ export default function RecentUsersPage() {
 
   const handleFetch = async () => {
     try {
-      const response = await axios.get(`/v1/users?recent=${n}&page=${page}`);
-      setUsers(response.data);
+      const data = await callApi(`/v1/users?recent=${n}&page=${page}`);
+      setUsers(data);
     } catch (error) {
-      showAlert('Error fetching users. Please try again later.');
-      console.error('Error fetching users:', error);
+      setUsers([])
     }
   };
 
   const handleSearch = async () => {
     if(page == 1){
-      handleFetch()
+      handleFetch();
     }
     else{
-      setPage(1)
+      setPage(1);
     }
   }
 

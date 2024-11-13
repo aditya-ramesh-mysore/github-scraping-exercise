@@ -18,6 +18,7 @@ export default function SearchForm({
                     type="text"
                     placeholder={placeholder}
                     value={searchField}
+                    required
                     onChange={(e) => setSearchField(e.target.value)}/>
             </Form.Group>
             <Button variant="success" onClick={onSearch} className="mt-2">

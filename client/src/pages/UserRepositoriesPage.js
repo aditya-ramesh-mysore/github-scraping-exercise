@@ -7,13 +7,14 @@ import RepositoriesTable from '../components/RepositoriesTable';
 import { useAlert } from '../hooks/useAlert';
 import SearchForm from '../components/SearchForm';
 import PaginationComponent from '../components/PaginationComponent';
+import useApi from '../hooks/useApi';
 
 export default function UserRepositoriesPage() {
 
   const [username, setUsername] = useState('');
   const [repositories, setRepositories] = useState([]);
   const [page, setPage] = useState(1);
-  const showAlert = useAlert()
+  const callApi = useApi()
 
   useEffect(() => {
     if (username) {
@@ -24,24 +25,11 @@ export default function UserRepositoriesPage() {
   const fetchRepositories = async (refresh = false) => {
     const refreshParam = refresh ? '&refresh=true' : '';
     try {
-      const response = await axios.get(`v1/users/${username}/repositories?page=${page}${refreshParam}`);
-      console.log(response.data)
-      
-      setRepositories(response.data);
+      const data = await callApi(`v1/users/${username}/repositories?page=${page}${refreshParam}`);      
+      setRepositories(data);
     } catch (error) {
-      if(error.status == 404){
-        showAlert("User not found.")
-      }
-      else if(error.status == 429){
-        showAlert('Too many requests, Please try again later.')
-      }
-      else{
-        showAlert('Some error occurred on our end. Please try again later')
-        
-      }
       setUsername('')
       setRepositories([])
-      console.error('Error fetching repositories:', error);
     }
   };
 
@@ -77,7 +65,7 @@ export default function UserRepositoriesPage() {
         <PaginationComponent 
           page={page}
           setPage={setPage}
-          hasMore={repositories.length === 10}
+          hasMore={repositories?.length === 10}
         />
       </div>
     </div>

@@ -4,13 +4,14 @@ import axios from "../api"
 import SearchForm from '../components/SearchForm';
 import PaginationComponent from '../components/PaginationComponent';
 import { useAlert } from '../hooks/useAlert';
+import useApi from '../hooks/useApi';
 
 
 export default function StarredProjectsPage() {
   const [n, setN] = useState(null);
   const [repositories, setRepositories] = useState([]);
   const [page, setPage] = useState(1);
-  const showAlert = useAlert();
+  const callApi = useApi()
 
   useEffect(() => {
     if(n){
@@ -20,11 +21,10 @@ export default function StarredProjectsPage() {
 
   const handleFetch = async () => {
     try {
-      const response = await axios.get(`/v1/repositories?recent=${n}&page=${page}`);
-      setRepositories(response.data);
+      const data = await callApi(`/v1/repositories?recent=${n}&page=${page}`);
+      setRepositories(data);
     } catch (error) {
-      showAlert('Error fetching users. Please try again later.');
-      console.error('Error fetching users:', error);
+      setRepositories([])
     }
   };
 

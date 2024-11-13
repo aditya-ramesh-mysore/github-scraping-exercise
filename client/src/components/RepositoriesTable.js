@@ -18,7 +18,7 @@ export default function RepositoriesTable({repositories}) {
               {repositories.map((repo) => (
                 <tr key={repo.id}>
                   <td>{repo.repository_name}</td>
-                  <td>{repo.description || '-'}</td>
+                  <td>{repo.description || <em>{"(Description unavailable)"}</em>}</td>
                   <td>{repo.stars || 0}</td>
                   <td>{repo.forks || 0}</td>
                 </tr>
