@@ -3,9 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from ..serializers import RepositoryDetailSerializer
-from ..services.repository_service import RepositoryService
+from ..services import RepositoryService, GithubRepositoriesService
 from ..exceptions import *
-from ..services.github_repositories_service import GithubRepositoriesService
 
 
 class UserRepositoryView(APIView):
