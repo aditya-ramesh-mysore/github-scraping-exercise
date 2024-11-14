@@ -5,6 +5,7 @@ import PaginationComponent from '../components/PaginationComponent';
 import useApi from '../hooks/useApi';
 import Col from 'react-bootstrap/esm/Col';
 
+// Page to display repositories of a particular github user
 export default function UserRepositoriesPage() {
 
   const [username, setUsername] = useState('');

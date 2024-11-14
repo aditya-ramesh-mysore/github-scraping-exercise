@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useLocation } from 'react-router-dom';
 
+// Main pagelayout, renders different backgrounds for landing page and other pages
 export default function PageLayout({children}) {
   const location = useLocation()
 

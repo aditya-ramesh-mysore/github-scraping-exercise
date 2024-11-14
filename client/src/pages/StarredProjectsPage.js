@@ -5,7 +5,7 @@ import PaginationComponent from '../components/PaginationComponent';
 import useApi from '../hooks/useApi';
 import Col from 'react-bootstrap/esm/Col';
 
-
+// Page to display most starred repositories
 export default function StarredProjectsPage() {
   const [input, setInput] = useState('');
   const [repositories, setRepositories] = useState([]);

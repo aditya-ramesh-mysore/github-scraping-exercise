@@ -1,4 +1,5 @@
 
+// Formatting DateTime obj to human readable format
 export const formatTime = (dateTime) => {
     const date = new Date(dateTime);
     const formattedDate = date.toLocaleString('en-US', {
