@@ -1,6 +1,7 @@
 import React from 'react';
 import Pagination from 'react-bootstrap/Pagination'
 
+// Handles pagination in all the pages, hasMore determines if more data is available
 export default function PaginationComponent({page, setPage, hasMore}) {
   return (
     <Pagination className="mt-4 d-flex justify-content-center">

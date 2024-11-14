@@ -13,17 +13,19 @@ import { AlertProvider } from './hooks/useAlert';
 function App() {
   return (
     <Router>
-      <AlertProvider>
+      
         <NavBar />
         <PageLayout>
+        <AlertProvider>
           <Routes>
             <Route path='/' element={<LandingPage />} />
             <Route path="/repositories" element={<UserRepositoriesPage />} />
             <Route path="/recent-users" element={<RecentUsersPage />} />
             <Route path="/projects" element={<StarredProjectsPage />} />
           </Routes>
+        </AlertProvider>
         </PageLayout>
-      </AlertProvider>
+
     </Router>
   );
 }

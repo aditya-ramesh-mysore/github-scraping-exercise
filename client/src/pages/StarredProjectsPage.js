@@ -27,6 +27,7 @@ export default function StarredProjectsPage() {
     }
   };
 
+  // if page number is 1, manually call handleFetch, else useEffect will automatically call handleFetch
   const handleSearch = async () => {
     if(page === 1){
       handleFetch()

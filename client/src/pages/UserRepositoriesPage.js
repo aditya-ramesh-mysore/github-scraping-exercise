@@ -29,6 +29,7 @@ export default function UserRepositoriesPage() {
     }
   };
 
+  // if page number is 1, manually call handleFetch, else useEffect will automatically call handleFetch
   const handleSearch = async () => {
     if(page === 1){
       fetchRepositories();
@@ -38,6 +39,7 @@ export default function UserRepositoriesPage() {
     }
   };
 
+  // Set refresh to true to get most recent data
   const handleRefresh = async () => {
     fetchRepositories(true);
   };

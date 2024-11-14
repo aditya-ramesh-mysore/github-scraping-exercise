@@ -2,6 +2,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import { formatTime } from '../utils/formatTime';
 
+// Renders Users table, keeping it responsive
 export default function UsersTable({users}) {
     return (
         <React.Fragment>

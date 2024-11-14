@@ -2,6 +2,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 
+// Form has three components: Input field, search button, optionally refresh button
 export default function SearchForm({
     title,
     searchField,

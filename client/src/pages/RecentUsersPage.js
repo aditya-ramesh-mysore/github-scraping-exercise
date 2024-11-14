@@ -5,6 +5,7 @@ import SearchForm from '../components/SearchForm';
 import useApi from '../hooks/useApi';
 import Col from 'react-bootstrap/esm/Col';
 
+// Users page which displays the recent most users saved in the database
 export default function RecentUsersPage() {
   const [input, setInput] = useState('');
   const [users, setUsers] = useState([]);
@@ -26,6 +27,7 @@ export default function RecentUsersPage() {
     }
   };
 
+  // if page number is 1, manually call handleFetch, else useEffect will automatically call handleFetch
   const handleSearch = async () => {
     if(page === 1){
       handleFetch();

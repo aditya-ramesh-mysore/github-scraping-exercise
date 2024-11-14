@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
 
+// Navbar that displays links to different pages
 export default function NavBar() {
 
     return ( 

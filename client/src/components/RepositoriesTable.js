@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table'
 
+// Renders repositories table, keeping it responsive, takes repositories array as prop
 export default function RepositoriesTable({repositories}) {
   return (
     <React.Fragment>
