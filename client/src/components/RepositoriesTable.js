@@ -19,8 +19,8 @@ export default function RepositoriesTable({repositories}) {
                 <tr key={index}>
                   <td>{repo.repository_name}</td>
                   <td>{repo.description || <em>{"(Description unavailable)"}</em>}</td>
-                  <td>{repo.stars || 0}</td>
-                  <td>{repo.forks || 0}</td>
+                  <td>{repo.stars}</td>
+                  <td>{repo.forks}</td>
                 </tr>
               ))}
             </tbody>
