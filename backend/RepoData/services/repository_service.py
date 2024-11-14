@@ -14,10 +14,10 @@ class RepositoryService:
     def __init__(self, github_service=None):
         self.github_service = github_service
 
-    def get_most_starred_repositories(self, recent=10, page=1):
+    def get_most_starred_repositories(self, most_starred=10, page=1):
         # Gets the repositories ordered by stars that each repository has, irrespective of users
         try:
-            most_starred_repositories = Repository.objects.all().order_by('-stars')[:recent]
+            most_starred_repositories = Repository.objects.all().order_by('-stars')[:most_starred]
             # calculating lower and upper limit for sending paginated responses, default number of repositories is 10
             if page > 1:
                 lower_limit = (page - 1) * self.__REPOSITORIES_PER_PAGE
