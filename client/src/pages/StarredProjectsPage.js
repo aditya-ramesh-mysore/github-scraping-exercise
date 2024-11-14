@@ -20,7 +20,7 @@ export default function StarredProjectsPage() {
 
   const handleFetch = async () => {
     try {
-      const data = await callApi(`/v1/repositories?recent=${input}&page=${page}`);
+      const data = await callApi(`/v1/repositories?most_starred=${input}&page=${page}`);
       setRepositories(data);
     } catch (error) {
       setRepositories([]);
