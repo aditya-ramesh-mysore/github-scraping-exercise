@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAlert } from './useAlert';
 import axios from '../api';
 
@@ -34,6 +33,9 @@ export default function useApi() {
                     break;
                 case 401:
                     showAlert("Unauthorized access.");
+                    break;
+                case 400:
+                    showAlert("Please enter a valid value in the search field.");
                     break;
                 default:
                     showAlert("Some issue processing the request, Please try again later.");

@@ -12,8 +12,8 @@ export default function UsersTable({users}) {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id}>
+                  {users.map((user, index) => (
+                    <tr key={index}>
                       <td>{user.username}</td>
                     </tr>
                   ))}

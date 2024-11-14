@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from "../api"
-import Form from "react-bootstrap/Form"
-import Button from 'react-bootstrap/Button';
-import Pagination from 'react-bootstrap/Pagination'
 import RepositoriesTable from '../components/RepositoriesTable';
-import { useAlert } from '../hooks/useAlert';
 import SearchForm from '../components/SearchForm';
 import PaginationComponent from '../components/PaginationComponent';
 import useApi from '../hooks/useApi';
@@ -35,7 +30,7 @@ export default function UserRepositoriesPage() {
   };
 
   const handleSearch = async () => {
-    if(page == 1){
+    if(page === 1){
       fetchRepositories();
     }
     else{

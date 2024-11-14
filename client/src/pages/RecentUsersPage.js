@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import UsersTable from '../components/UsersTable';
-import { useAlert } from '../hooks/useAlert';
-import Button from 'react-bootstrap/Button';
 import PaginationComponent from '../components/PaginationComponent';
 import SearchForm from '../components/SearchForm';
 import useApi from '../hooks/useApi';
@@ -29,7 +27,7 @@ export default function RecentUsersPage() {
   };
 
   const handleSearch = async () => {
-    if(page == 1){
+    if(page === 1){
       handleFetch();
     }
     else{
@@ -60,7 +58,7 @@ export default function RecentUsersPage() {
         <PaginationComponent 
           page={page}
           setPage={setPage}
-          hasMore={users.length === 10}
+          hasMore={users?.length === 10}
         />
       </div>
     </div>

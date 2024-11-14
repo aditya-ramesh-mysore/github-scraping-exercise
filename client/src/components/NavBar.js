@@ -1,10 +1,8 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/Navbar'
+import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button';
-import { Link, useLocation } from 'react-router-dom';
+import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
 
 export default function NavBar() {
 

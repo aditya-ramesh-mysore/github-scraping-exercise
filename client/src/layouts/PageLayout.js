@@ -1,4 +1,3 @@
-import Button from 'react-bootstrap/Button';
 import React from 'react'; 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -21,7 +20,7 @@ export default function PageLayout({children}) {
       color: '#fff',
   }
   
-  if(location.pathname != "/"){
+  if(location.pathname !== "/"){
     style = {
       backgroundImage: `url('/Background2.jpg')`,
       backgroundSize: 'cover',

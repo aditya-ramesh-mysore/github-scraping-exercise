@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import RepositoriesTable from '../components/RepositoriesTable';
-import axios from "../api"
 import SearchForm from '../components/SearchForm';
 import PaginationComponent from '../components/PaginationComponent';
-import { useAlert } from '../hooks/useAlert';
 import useApi from '../hooks/useApi';
 import Col from 'react-bootstrap/esm/Col';
 
 
 export default function StarredProjectsPage() {
-  const [input, setInput] = useState(null);
+  const [input, setInput] = useState('');
   const [repositories, setRepositories] = useState([]);
   const [page, setPage] = useState(1);
   const callApi = useApi()
@@ -25,12 +23,12 @@ export default function StarredProjectsPage() {
       const data = await callApi(`/v1/repositories?recent=${input}&page=${page}`);
       setRepositories(data);
     } catch (error) {
-      setRepositories([])
+      setRepositories([]);
     }
   };
 
   const handleSearch = async () => {
-    if(page == 1){
+    if(page === 1){
       handleFetch()
     }
     else{
@@ -60,7 +58,7 @@ export default function StarredProjectsPage() {
         <PaginationComponent 
           page={page}
           setPage={setPage}
-          hasMore={repositories.length === 10}
+          hasMore={repositories?.length === 10}
         />
       </div>
     </div>

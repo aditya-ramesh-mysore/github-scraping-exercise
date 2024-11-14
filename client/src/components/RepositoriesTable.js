@@ -15,8 +15,8 @@ export default function RepositoriesTable({repositories}) {
               </tr>
             </thead>
             <tbody>
-              {repositories.map((repo) => (
-                <tr key={repo.id}>
+              {repositories.map((repo, index) => (
+                <tr key={index}>
                   <td>{repo.repository_name}</td>
                   <td>{repo.description || <em>{"(Description unavailable)"}</em>}</td>
                   <td>{repo.stars || 0}</td>
