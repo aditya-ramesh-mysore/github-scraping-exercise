@@ -50,13 +50,33 @@ The project aims to collect public github repositories of users and provide an i
 3. Most Starred Projects: Enter a number N and get N number of most starred Project  (repositories) arranged in descending order.
 
 ## 4. Technologies Used
-    1. Database -> PostgreSQL: As we need to store user and github repositories and perform complex queries on them efficiently, a SQL database is preferred. PostgreSQL is chosen as it provides ACID transactions, indexing, supports complex queries (joins), and offers scalability. As strong consistency and data integrity is important, a SQL database is preferred.
+1. Database -> PostgreSQL: As we need to store user and github repositories and perform complex queries on them efficiently, a SQL database is preferred. PostgreSQL is chosen as it provides ACID transactions, indexing, supports complex queries (joins), and offers scalability. As strong consistency and data integrity is important, a SQL database is preferred.
 
-    2. Backend -> Poetry for Dependency management, Python Django REST Framework: Django is chosen for its rapid development features in building REST APIs. It comes with built-in ORM (simplifies database operations, Good for cloud-native), Database migrations, Authentication, serialization, and effective testing.
+2. Backend -> Poetry for Dependency management, Python Django REST Framework: Django is chosen for its rapid development features in building REST APIs. It comes with built-in ORM (simplifies database operations, Good for cloud-native), Database migrations, Authentication, serialization, and effective testing.
 
-    3. Frontend -> React.js: React is chosen for its efficient component based architecture, allowing development of reusable UI components. It ensures seamless integration with REST APIs, provides responsive UI development, suitable for displaying Github data interactively.
+3. Frontend -> React.js: React is chosen for its efficient component based architecture, allowing development of reusable UI components. It ensures seamless integration with REST APIs, provides responsive UI development, suitable for displaying Github data interactively.
 ## 5. Architecture
 
 ![alt text](client/public/Architecture.png)
+
 ## 6. API Documentation
-    1. 
+
+1. Endpoint: /v1/users/{username}/repositories
+   Method: GET
+   Query Params: refresh=true, page=page_number
+   Description: Retrieve public github repositories for "username" for page=page_number (default is 1). Optionally, refresh to get the most recent data on page=page_number for "username".
+
+2. Endpoint: /v1/users
+   Method: GET
+   Query Params: recent=N, page=page_number
+   Description: Retrieve "N" most recent users saved in the database, on page: page_number
+
+3. Endpoint: /v1/repositories
+   Method: GET
+   Query Params: most_starred=N, page=page_number
+   Description: Retrieve "N" most starred repositories saved in the database, on page: page_number
+
+4. Endpoint: /v1/health
+   Method: GET
+   Query Params: 
+   Description: Check if django app is able to connect to the database, return 503 if unable to connect.
