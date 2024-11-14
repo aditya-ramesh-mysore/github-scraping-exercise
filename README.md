@@ -45,10 +45,9 @@ The project aims to collect public github repositories of users and provide an i
 
 
 ## 3. Features
-
-    1. User repositories page: Search for a Github username and get all their public repositories and  display Repository name, description, Number of stars and Number of forks. 
-    2. Recent Users Page: Enter a number N and get N number of most recent users saved in the  database.
-    3. Most Starred Projects: Enter a number N and get N number of most starred Project  (repositories) arranged in descending order.
+1. User repositories page: Search for a Github username and get all their public repositories and  display Repository name, description, Number of stars and Number of forks. 
+2. Recent Users Page: Enter a number N and get N number of most recent users saved in the  database.
+3. Most Starred Projects: Enter a number N and get N number of most starred Project  (repositories) arranged in descending order.
 
 ## 4. Technologies Used
     1. Database -> PostgreSQL: As we need to store user and github repositories and perform complex queries on them efficiently, a SQL database is preferred. PostgreSQL is chosen as it provides ACID transactions, indexing, supports complex queries (joins), and offers scalability. As strong consistency and data integrity is important, a SQL database is preferred.
