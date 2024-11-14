@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import requests
 
+# Abstract class for different github API calls, extend this to implement calls to different Github APIs
 class AbstractGithubService(ABC):
 
     @abstractmethod

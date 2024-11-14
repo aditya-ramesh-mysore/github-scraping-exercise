@@ -8,6 +8,7 @@ class UserView(APIView):
 
     # users/
     def get(self, request, *args, **kwargs):
+        # View for getting users: Accepts recent, page as query parameters
         try:
             recent = int(request.GET.get('recent', 10))
             page = int(request.GET.get('page', 1))

@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import User, Repository
 
+# Wrote different serializer classes to serialize an deserialize objects
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

@@ -6,11 +6,12 @@ from ..serializers import RepositoryDetailSerializer
 from ..services import RepositoryService
 
 
-# Create your views here.
+# Repository view
 class RepositoryView(APIView):
 
     # repositories/
     def get(self, request, *args, **kwargs):
+        # View for getting Repository resources, takes recent, page as GET parameters
         try:
             recent = int(request.GET.get('recent', 10))
             page = int(request.GET.get('page', 1))

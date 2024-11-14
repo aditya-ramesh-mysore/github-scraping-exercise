@@ -2,6 +2,8 @@ from django.test import TestCase, Client
 from ..models import *
 from rest_framework import status
 
+
+# Testing UserView
 class UserViewTest(TestCase):
 
 

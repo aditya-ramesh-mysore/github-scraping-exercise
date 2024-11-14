@@ -1,6 +1,7 @@
 from django.test import TestCase
 from ..models import User, Repository
 
+# Testing User and Repository model
 class UserModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):

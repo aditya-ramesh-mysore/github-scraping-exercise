@@ -6,6 +6,7 @@ from ..exceptions import *
 from unittest.mock import patch
 
 
+# Testing UserRepositoryView
 class UserRepositoryViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
