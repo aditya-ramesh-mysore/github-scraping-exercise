@@ -5,7 +5,11 @@ class UserService:
     __USERS_PER_PAGE = 10
 
     def get_recent_users(self, recent=10, page=1):
-        # Get most recent users, according to created_at field, saved in the database
+        '''
+        :param recent: Integer, default 10
+        :param page: Integer, default 1
+        :return: List of User objects
+        '''
         try:
             most_recent_users = User.objects.all().order_by('-created_at')[:recent]
             # Calculating lower limit and upper limit for paginated responses

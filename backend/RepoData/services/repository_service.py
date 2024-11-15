@@ -7,15 +7,17 @@ load_dotenv()
 
 # Service that interacts with Repository table of the database
 class RepositoryService:
-    __BASE_GITHUB_URL = 'https://api.github.com/'
-    __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
     __REPOSITORIES_PER_PAGE = 10
 
     def __init__(self, github_service=None):
         self.github_service = github_service
 
     def get_most_starred_repositories(self, most_starred=10, page=1):
-        # Gets the repositories ordered by stars that each repository has, irrespective of users
+        '''
+        :param most_starred: Integer
+        :param page: Integer
+        :return: List of most starred repositories
+        '''
         try:
             most_starred_repositories = Repository.objects.all().order_by('-stars')[:most_starred]
             # calculating lower and upper limit for sending paginated responses, default number of repositories is 10
@@ -30,9 +32,13 @@ class RepositoryService:
             raise e
 
     def get_user_repositories(self, username, query_params):
-        # Get repositories belonging to a particular user
-        # If the repositories are in the database, return them, if not, query the GitHub API through github_service class
-        # Optionally takes a refresh parameter: if true, query Github API for latest data
+        '''
+        :param username: string
+        :param query_params: dictionary
+        :return: list of Repository objects, If the repositories are in the database, return them
+        if not, query the GitHub API through github_service class, Optionally takes a
+        refresh parameter: if true, query Github API for latest data
+        '''
         page = query_params.get('page', 1)
         fetch_from_github = self._should_fetch_from_github(query_params)
         try:
@@ -48,18 +54,30 @@ class RepositoryService:
         return self._fetch_repos_from_github(user_obj, username, page)
 
     def _should_fetch_from_github(self, query_params):
-        # Fetch from github API if refresh is true
+        '''
+        :param query_params: dictionary with query parameters
+        :return: boolean indicating if repository should be fetched from github
+        '''
         return query_params.get('refresh', 'false').lower() == 'true'
 
     def _get_etag(self, user_obj, page):
-        # Get etag stored in the database for conditional GET request to github API
+        '''
+        :param user_obj: User object
+        :param page: Integer
+        :return: etag (string) or None
+        '''
         if not user_obj:
             return None
         user_repo = Repository.objects.filter(user=user_obj, page_number=page).first()
         return user_repo.etag if user_repo else None
 
     def _fetch_repos_from_github(self, user_obj, username, page):
-        # uses github service class to call github API to fetch repositories
+        '''
+        :param user_obj: User object or None
+        :param username: String username
+        :param page: Integer page number
+        :return: List of Repository objects or Exception raised
+        '''
         etag = self._get_etag(user_obj, page)
         response = self.github_service.call_github_api(f'users/{username}/repos', page, etag)
 
@@ -76,7 +94,14 @@ class RepositoryService:
         raise Exception(f"Unexpected GitHub API response: {response.status_code} - {response.text}")
 
     def _save_repositories(self, data, user_obj, page, etag):
-        # Delete stale data and replace it with updated data OR create new data if not present
+        '''
+        :param data: List of Repository objects
+        :param user_obj: User object
+        :param page: Integer
+        :param etag: String
+        :return: List of saved Repository objects
+        Delete stale data and replace it with updated data OR create new data if not present
+        '''
         if not data:
             return []
         Repository.objects.filter(user=user_obj, page_number=page).delete()

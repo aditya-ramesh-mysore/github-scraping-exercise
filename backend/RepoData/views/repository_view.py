@@ -11,7 +11,13 @@ class RepositoryView(APIView):
 
     # repositories/
     def get(self, request, *args, **kwargs):
-        # View for getting Repository resources, takes most_starred, page as GET parameters
+        '''
+        :param request: Request object
+        :param args:
+        :param kwargs:
+        :return: List of most starred repositories
+        Takes most_starred, page as GET parameters
+        '''
         try:
             most_starred = int(request.GET.get('most_starred', 10))
             page = int(request.GET.get('page', 1))

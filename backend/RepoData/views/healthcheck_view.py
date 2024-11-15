@@ -8,7 +8,12 @@ from django.db import connection
 class HealthCheckView(APIView):
 
     def get(self, request, *args, **kwargs):
-        # check if database is connected, if not : send 503 service unavailable
+        '''
+        :param request: Request object
+        :param args:
+        :param kwargs:
+        :return: Response 200 if connection established or 503
+        '''
         try:
             connection.ensure_connection()
             return Response(status=status.HTTP_200_OK)
