@@ -87,10 +87,7 @@ Database Design:
 ![alt text](client/public/Database.png)  
 There are two tables: User and Repository. The "user_id" field in Repository table is a foreign key   reference to "id" in User table. Along with Repository information like repository_name, description,  stars and forks, the table also stores etag and page number which are obtained from   Github API.  
 
-1. Get user repositories flow: Once a request arrives at: /v1/users/{username}/repositories  
-the backend checks if the username is present in the database; If present and "refresh" query parameter is  not set to true, the backend returns repositories from the database. If username  
-is not present or "refresh" is set to true, the backend makes an API call to GitHub to retrieve  
-repositories associated to a specific page number.  
+1. Get user repositories flow: Once a request arrives at: /v1/users/{username}/repositories the backend  checks if the username is present in the database; If present and "refresh" query parameter is not set to  true, the backend returns repositories from the database. If username is not present or "refresh" is set to  true, the backend makes an API call to GitHub to retrieve repositories associated to a specific page  number.   
 We also store etag associated to a page number, to make conditional GET requests to GitHub API. This is  efficient for two reasons:  
 a. We stay within the GitHub API rate limit.  
 b. 304 Not Modified helps save bandwidth, resulting in better backend performance.  
