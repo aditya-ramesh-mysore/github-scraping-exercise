@@ -1,6 +1,8 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
+import { formatTime } from '../utils/formatTime';
 
+// Renders Users table, keeping it responsive
 export default function UsersTable({users}) {
     return (
         <React.Fragment>
@@ -9,12 +11,14 @@ export default function UsersTable({users}) {
                 <thead>
                   <tr>
                     <th style={{width: 200}}>Most Recent Users</th>
+                    <th style={{width: 140}}>Saved At</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id}>
+                  {users.map((user, index) => (
+                    <tr key={index}>
                       <td>{user.username}</td>
+                      <td>{formatTime(user.created_at)}</td>
                     </tr>
                   ))}
                 </tbody>

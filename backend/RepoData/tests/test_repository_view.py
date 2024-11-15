@@ -4,6 +4,7 @@ from rest_framework import status
 from ..models import Repository, User
 
 
+# Testing RepositoryView
 class RepositoryViewTest(TestCase):
 
     def setUp(self):
@@ -15,7 +16,7 @@ class RepositoryViewTest(TestCase):
         self.url = 'http://127.0.0.1:8000/v1/repositories/'
 
     def test_get_most_starred_repositories_success(self):
-        response = self.client.get(self.url, {'recent': 2, 'page': 1})
+        response = self.client.get(self.url, {'most_starred': 2, 'page': 1})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 
@@ -28,14 +29,14 @@ class RepositoryViewTest(TestCase):
         for i in range(4, 14):
             Repository.objects.create(user=self.user, repository_name='repo' + str(i), stars=10)
 
-        response = self.client.get(self.url, {'recent': 13, 'page': 2})
+        response = self.client.get(self.url, {'most_starred': 13, 'page': 2})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 3)
         data = response.data
         self.assertEqual(len(data), 3)
 
     def test_get_most_starred_repositories_invalid_parameters(self):
-        response = self.client.get(self.url, {'recent': 'invalid', 'page': 'invalid'})
+        response = self.client.get(self.url, {'most_starred': 'invalid', 'page': 'invalid'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['error'], 'Invalid parameters')
 

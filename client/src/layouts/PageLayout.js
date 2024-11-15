@@ -1,10 +1,10 @@
-import Button from 'react-bootstrap/Button';
 import React from 'react'; 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useLocation } from 'react-router-dom';
 
+// Main pagelayout, renders different backgrounds for landing page and other pages
 export default function PageLayout({children}) {
   const location = useLocation()
 
@@ -21,7 +21,7 @@ export default function PageLayout({children}) {
       color: '#fff',
   }
   
-  if(location.pathname != "/"){
+  if(location.pathname !== "/"){
     style = {
       backgroundImage: `url('/Background2.jpg')`,
       backgroundSize: 'cover',

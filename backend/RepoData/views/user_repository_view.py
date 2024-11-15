@@ -11,6 +11,13 @@ class UserRepositoryView(APIView):
 
     # users/{username}/repositories
     def get(self, request, *args, **kwargs):
+        '''
+        :param request: Request object
+        :param args:
+        :param kwargs: username
+        :return: Response 200 with List of repositories or Error status Response
+        Takes refresh, page as GET parameters
+        '''
         username = kwargs.get('username', None)
         if not username:
             return Response({'error': 'Username is required.'}, status=status.HTTP_400_BAD_REQUEST)

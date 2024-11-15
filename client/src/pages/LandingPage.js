@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/esm/Col';
 import { useNavigate } from 'react-router-dom';
 import {ReactTyped} from 'react-typed'
 
+// Main landing page 
 export default function Landing() {
   const navigate = useNavigate();
 

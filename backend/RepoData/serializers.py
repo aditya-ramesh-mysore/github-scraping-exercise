@@ -2,11 +2,12 @@ from rest_framework import serializers
 
 from .models import User, Repository
 
+# Wrote different serializer classes to serialize an deserialize objects
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'created_at']
         read_only_fields = ['id']
 
 

@@ -1,7 +1,8 @@
-import React from 'react';
 import { useAlert } from './useAlert';
 import axios from '../api';
 
+// useApi hook calls the given endpoint and handles common HTTP status codes if there are errors
+// Show alert and also rethrow the error to be caught in the component for further error handling.
 export default function useApi() {
     const showAlert = useAlert();
 
@@ -34,6 +35,9 @@ export default function useApi() {
                     break;
                 case 401:
                     showAlert("Unauthorized access.");
+                    break;
+                case 400:
+                    showAlert("Please enter a valid value in the search field.");
                     break;
                 default:
                     showAlert("Some issue processing the request, Please try again later.");

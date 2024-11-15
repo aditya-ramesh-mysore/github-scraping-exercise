@@ -6,16 +6,23 @@ from ..serializers import RepositoryDetailSerializer
 from ..services import RepositoryService
 
 
-# Create your views here.
+# Repository view
 class RepositoryView(APIView):
 
     # repositories/
     def get(self, request, *args, **kwargs):
+        '''
+        :param request: Request object
+        :param args:
+        :param kwargs:
+        :return: List of most starred repositories
+        Takes most_starred, page as GET parameters
+        '''
         try:
-            recent = int(request.GET.get('recent', 10))
+            most_starred = int(request.GET.get('most_starred', 10))
             page = int(request.GET.get('page', 1))
             service = RepositoryService()
-            most_starred_repositories = service.get_most_starred_repositories(recent, page)
+            most_starred_repositories = service.get_most_starred_repositories(most_starred, page)
             serializer = RepositoryDetailSerializer(most_starred_repositories, many=True)
             return Response(serializer.data)
 

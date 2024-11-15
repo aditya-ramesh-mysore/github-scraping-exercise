@@ -1,7 +1,12 @@
 from django.db import DatabaseError, OperationalError
 from django.db import connection
 from django.http import JsonResponse
+
+# Middleware the checks connection to database for every request
 class DatabaseExceptionMiddleware:
+    '''
+    Middleware to handle database exceptions, return 503 if database connection fails.
+    '''
     def __init__(self, get_response):
         self.get_response = get_response
 

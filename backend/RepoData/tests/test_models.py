@@ -1,6 +1,7 @@
 from django.test import TestCase
 from ..models import User, Repository
 
+# Testing User and Repository model
 class UserModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -15,7 +16,7 @@ class UserModelTest(TestCase):
     def test_username_max_length(self):
         user = User.objects.get(username='testuser')
         max_length = user._meta.get_field('username').max_length
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 150)
 
     def test_username_is_unique(self):
         user = User.objects.get(username='testuser')
@@ -63,12 +64,12 @@ class RepositoryModelTest(TestCase):
     def test_repository_name_max_length(self):
         repository = Repository.objects.get(id=1)
         max_length = repository._meta.get_field('repository_name').max_length
-        self.assertEqual(max_length, 100)
+        self.assertEqual(max_length, 200)
 
     def test_description_max_length(self):
         repository = Repository.objects.get(id=1)
         max_length = repository._meta.get_field('description').max_length
-        self.assertEqual(max_length, 400)
+        self.assertEqual(max_length, 1000)
 
     def test_page_number_default_value(self):
         repository = Repository.objects.get(id=1)

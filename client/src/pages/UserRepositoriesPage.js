@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from "../api"
-import Form from "react-bootstrap/Form"
-import Button from 'react-bootstrap/Button';
-import Pagination from 'react-bootstrap/Pagination'
 import RepositoriesTable from '../components/RepositoriesTable';
-import { useAlert } from '../hooks/useAlert';
 import SearchForm from '../components/SearchForm';
 import PaginationComponent from '../components/PaginationComponent';
 import useApi from '../hooks/useApi';
 import Col from 'react-bootstrap/esm/Col';
 
+// Page to display repositories of a particular github user
 export default function UserRepositoriesPage() {
 
   const [username, setUsername] = useState('');
@@ -34,8 +30,9 @@ export default function UserRepositoriesPage() {
     }
   };
 
+  // if page number is 1, manually call handleFetch, else useEffect will automatically call handleFetch
   const handleSearch = async () => {
-    if(page == 1){
+    if(page === 1){
       fetchRepositories();
     }
     else{
@@ -43,6 +40,7 @@ export default function UserRepositoriesPage() {
     }
   };
 
+  // Set refresh to true to get most recent data
   const handleRefresh = async () => {
     fetchRepositories(true);
   };

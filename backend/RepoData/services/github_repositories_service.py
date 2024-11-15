@@ -5,12 +5,16 @@ from django.http import Http404
 from rest_framework import status
 from .abstract_github_service import AbstractGithubService
 
-
+# Service class that retrieves repositories belonging to a user
 class GithubRepositoriesService(AbstractGithubService):
     __BASE_GITHUB_URL = 'https://api.github.com/'
     __GITHUB_TOKEN = os.environ.get('GITHUB_API_TOKEN')
 
     def _get_headers(self, etag=None):
+        '''
+        :param etag: String or None
+        :return: Dictionary of headers.
+        '''
         headers = {
             'Accept': 'application/vnd.github+json',
             'Authorization': f'Bearer {self.__GITHUB_TOKEN}'
@@ -20,9 +24,20 @@ class GithubRepositoriesService(AbstractGithubService):
         return headers
 
     def _build_url(self, endpoint, page):
+        '''
+        :param endpoint: String
+        :param page: Integer, page number
+        :return: String, Github URL
+        '''
         return f"{self.__BASE_GITHUB_URL}/{endpoint}?page={page}&per_page=10&sort=created"
 
     def call_github_api(self, endpoint, page, etag=None):
+        '''
+        :param endpoint: String, Github API endpoint
+        :param page: Integer, page number
+        :param etag: String or None
+        :return: Response object from github API
+        '''
         url = self._build_url(endpoint, page)
         headers = self._get_headers(etag)
         response = requests.get(url, headers=headers)
@@ -31,6 +46,10 @@ class GithubRepositoriesService(AbstractGithubService):
         return response
 
     def _handle_github_response_errors(self, response):
+        '''
+        :param response: Response object from github API
+        :return: None or Exception raised
+        '''
         if response.status_code == status.HTTP_404_NOT_FOUND:
             raise Http404("GitHub user not found.")
         elif response.status_code in (status.HTTP_403_FORBIDDEN, status.HTTP_429_TOO_MANY_REQUESTS):
