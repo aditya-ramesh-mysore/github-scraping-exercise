@@ -61,22 +61,22 @@ The project aims to collect public github repositories of users and provide an i
 
 ## 6. API Documentation
 
-1. Endpoint: /v1/users/{username}/repositories
-    Method: GET
-    Query Params: refresh=true, page=page_number
-    Description: Retrieve public github repositories for "username" for page=page_number (default is 1). Optionally,    refresh to get the most recent data on page=page_number for "username".
+1. Endpoint: /v1/users/{username}/repositories  
+    Method: GET  
+    Query Params: refresh=true, page=page_number  
+    Description: Retrieve public github repositories for "username" for page=page_number (default is   1). Optionally,refresh to get the most recent data on page=page_number for "username".
 
-2. Endpoint: /v1/users
-    Method: GET
-    Query Params: recent=N, page=page_number
-    Description: Retrieve "N" most recent users saved in the  database, on page: page_number
+2. Endpoint: /v1/users  
+    Method: GET  
+    Query Params: recent=N, page=page_number  
+    Description: Retrieve "N" most recent users saved in the  database, on page: page_number  
 
-3. Endpoint: /v1/repositories
-    Method: GET
-    Query Params: most_starred=N, page=page_number
-    Description: Retrieve "N" most starred repositories saved in the database, on page: page_number
+3. Endpoint: /v1/repositories  
+    Method: GET  
+    Query Params: most_starred=N, page=page_number  
+    Description: Retrieve "N" most starred repositories saved in the database, on page: page_number  
 
-4. Endpoint: /v1/health
-    Method: GET
-    Query Params: 
-    Description: Check if django app is able to connect to the database, return 503 if unable to connect.
+4. Endpoint: /v1/health  
+    Method: GET  
+    Query Params:  
+    Description: Check if django app is able to connect to the database, return 503 if unable to   connect.  
