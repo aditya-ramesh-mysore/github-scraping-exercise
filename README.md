@@ -24,6 +24,7 @@ First clone the repository to your local machine. It has two directories: backen
 
   # Create a .env file for database credentials and github API key (create a Github Personal Access Token )
   # .env file should have: DB_NAME, DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, GITHUB_API_TOKEN
+  # Check .env.sample file
 
   python manage.py makemigrations
   python manage.py migrate
@@ -55,11 +56,8 @@ The project aims to collect public github repositories of users and provide an i
 2. Backend -> Poetry for Dependency management, Python Django REST Framework: Django is chosen for its rapid development features in building REST APIs. It comes with built-in ORM (simplifies database operations, Good for cloud-native), Database migrations, Authentication, serialization, and effective testing.
 
 3. Frontend -> React.js: React is chosen for its efficient component based architecture, allowing development of reusable UI components. It ensures seamless integration with REST APIs, provides responsive UI development, suitable for displaying Github data interactively.
-## 5. Architecture
 
-![alt text](client/public/Architecture.png)
-
-## 6. API Documentation
+## 5. API Documentation
 
 1. Endpoint: /v1/users/{username}/repositories  
     Method: GET  
@@ -81,7 +79,10 @@ The project aims to collect public github repositories of users and provide an i
     Query Params:  
     Description: Check if django app is able to connect to the database, return 503 if unable to   connect.  
 
-## 7. System Design Consideration  
+## 6. System Design And Architecture  
+
+High Level Design:  
+![alt text](client/public/Architecture.png)  
 
 Database Design:  
 ![alt text](client/public/Database.png)  
@@ -94,4 +95,29 @@ b. 304 Not Modified helps save bandwidth, resulting in better backend performanc
 
 2. Pagination is implemented for all the endpoints in the backend, as it is inefficient to  retrieve all the  records at once.  
 
-3. Users have an option to refresh to see latest data, This is implemented by making conditional GET  requests to Github API.
+3. Since the data changes infrequently, we give users an option to refresh to see latest data, This is  implemented by making conditional GET requests to Github API.  
+
+
+## 7. Testing and Maintainability:  
+
+Used Test classes from django for testing different components. Used Mocking to emulate Github API calls.  Tested various scenarios for frontend use cases.   
+Backend maintainability:  
+Used Models, Views and Services, where Models define database tables, views for handling APIs and services  
+for the business logic thereby maintaining separation of concerns. Wrote custom middleware and healtcheck  
+view (Suited for cloud deployment) to handle service availability.  
+
+Frontend maintainability:  
+Designed four pages: Landing page, User Repositories page, Recent Users page, Most Starred repositories page  
+for the given use cases. Used reusable custom hooks and components to keep code consistent and easy to read.
+
+
+## 7. Further Enhancements:  
+
+Backend:  
+1. Cache: Use Redis to cache repository/user data for fast retrieval. Set appropriate expiry and cache  invalidation.
+2. Use asynchronous django views with a third party async ORM, as Django ORM has limited capabilities.  
+
+
+Frontend:  
+1. Cache: Store upto 2 or 3 pages in component state to reduce number of API calls to the server.  
+2. Use useCallback and useMemo hooks wherever necessary to reduce frequent renders.  

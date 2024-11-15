@@ -2,8 +2,6 @@ from django.test import TestCase
 from unittest.mock import MagicMock, patch
 from ..models import Repository, User
 from ..services.repository_service import RepositoryService
-from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import status
 
 class RepositoryServiceTest(TestCase):
     def setUp(self):
