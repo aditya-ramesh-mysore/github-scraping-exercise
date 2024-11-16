@@ -1,7 +1,10 @@
 import os
+import time
+
 from ..models import Repository, User
 from dotenv import load_dotenv
 from rest_framework import status
+from django.db import transaction
 
 load_dotenv()
 
@@ -18,18 +21,15 @@ class RepositoryService:
         :param page: Integer
         :return: List of most starred repositories
         '''
-        try:
-            most_starred_repositories = Repository.objects.all().order_by('-stars')[:most_starred]
-            # calculating lower and upper limit for sending paginated responses, default number of repositories is 10
-            if page > 1:
-                lower_limit = (page - 1) * self.__REPOSITORIES_PER_PAGE
-                upper_limit = lower_limit + self.__REPOSITORIES_PER_PAGE
-                most_starred_repositories = most_starred_repositories[lower_limit:upper_limit]
-            else:
-                most_starred_repositories = most_starred_repositories[:self.__REPOSITORIES_PER_PAGE]
-            return most_starred_repositories
-        except Exception as e:
-            raise e
+        most_starred_repositories = Repository.objects.all().order_by('-stars')[:most_starred]
+        # calculating lower and upper limit for sending paginated responses, default number of repositories is 10
+        if page > 1:
+            lower_limit = (page - 1) * self.__REPOSITORIES_PER_PAGE
+            upper_limit = lower_limit + self.__REPOSITORIES_PER_PAGE
+            most_starred_repositories = most_starred_repositories[lower_limit:upper_limit]
+        else:
+            most_starred_repositories = most_starred_repositories[:self.__REPOSITORIES_PER_PAGE]
+        return most_starred_repositories
 
     def get_user_repositories(self, username, query_params):
         '''
@@ -104,21 +104,26 @@ class RepositoryService:
         '''
         if not data:
             return []
-        Repository.objects.filter(user=user_obj, page_number=page).delete()
+        # Using transaction to keep database integrity, integrity error is handled by view as 500 internal server error
+        with transaction.atomic():
 
-        for repo_data in data:
-            object_data = {
-                'etag': etag,
-                'page_number': page,
-                'description': repo_data.get('description'),
-                'stars': repo_data['stargazers_count'],
-                'forks': repo_data['forks_count'],
-            }
+            # Delete existing records if exists
+            Repository.objects.filter(user=user_obj, page_number=page).delete()
 
-            repository, created = Repository.objects.update_or_create(
-                user=user_obj,
-                repository_name=repo_data['name'],
-                defaults=object_data
-            )
+            # Update or create new records
+            for repo_data in data:
+                object_data = {
+                    'etag': etag,
+                    'page_number': page,
+                    'description': repo_data.get('description'),
+                    'stars': repo_data['stargazers_count'],
+                    'forks': repo_data['forks_count'],
+                }
+
+                repository, created = Repository.objects.update_or_create(
+                    user=user_obj,
+                    repository_name=repo_data['name'],
+                    defaults=object_data
+                )
 
         return Repository.objects.filter(user=user_obj, page_number=page)
